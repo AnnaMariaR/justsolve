@@ -34,6 +34,48 @@ Stop environment:
 ```
 docker compose down
 ```
+
+Enter the container:
+```
+docker exec -it justsolve_laravel sh
+```
+
+Database Configuration (SQLite):
+```bash
+# SQLite is configured in backend/.env
+
+# Run migrations:
+docker exec justsolve_laravel php artisan migrate
+
+# Seed the database:
+docker exec justsolve_laravel php artisan db:seed
+
+# Reset and reseed database:
+docker exec justsolve_laravel php artisan migrate:fresh --seed
+
+# Check migration status:
+docker exec justsolve_laravel php artisan migrate:status
+
+# Open Tinker ( PHP shell):
+docker exec -it justsolve_laravel php artisan tinker
+
+# Then inside tinker, run these commands:
+# List all tables:
+$tables = \DB::select("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"); foreach($tables as $t) echo $t->name . PHP_EOL;
+
+# Check if table exists:
+\Schema::hasTable('debts');
+
+# Count records:
+\App\Models\Debt::count();
+
+# View all debts as array (formatted):
+\App\Models\Debt::all()->toArray();
+
+# Exit tinker:
+exit
+```
+
 Laravel installation steps: <br>
 The backend was generated inside the backend folder using Composer inside Docker:
 ```
