@@ -76,12 +76,30 @@ $tables = \DB::select("SELECT name FROM sqlite_master WHERE type='table' ORDER B
 exit
 ```
 
+## Testing
+
+Run all tests:
+```bash
+docker exec justsolve_laravel php artisan test
+```
+
+Run specific test suite:
+```bash
+# Run DebtActionService unit tests
+docker exec justsolve_laravel php artisan test --filter=DebtActionServiceTest
+
+Run tests with coverage:
+```bash
+docker exec justsolve_laravel php artisan test --coverage
+```
+
 Laravel installation steps: <br>
 The backend was generated inside the backend folder using Composer inside Docker:
 ```
 docker run --rm -v "$(pwd)":/app -w /app composer:2 \
     composer create-project laravel/laravel backend
 ```
+
 ##  Frontend Environment (Angular)
 
 For this technical test, the Angular frontend runs **locally** (outside Docker).  
