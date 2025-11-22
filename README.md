@@ -29,6 +29,7 @@ docker compose up
 Laravel will be available at:
 - http://localhost:8000
 - or http://127.0.0.1:8000
+
 Stop environment:
 ```
 docker compose down
@@ -39,3 +40,21 @@ The backend was generated inside the backend folder using Composer inside Docker
 docker run --rm -v "$(pwd)":/app -w /app composer:2 \
     composer create-project laravel/laravel backend
 ```
+##  Frontend Environment (Angular)
+
+For this technical test, the Angular frontend runs **locally** (outside Docker).  
+This keeps the development process simple, fast, and easy to evaluate, without adding 
+extra container complexity that is not required for the scope of the challenge.
+
+To start the Angular application:
+
+```bash
+cd frontend/debt-collector
+npm install
+ng serve
+```
+The app will be available at:
+
+- http://localhost:4200
+
+P.S In production or large team projects, the recommended setup is to containerize both backend and frontend for consistency.This separation improves scalability, caching, CI/CD pipelines, reproducibility, and deployment consistency.
