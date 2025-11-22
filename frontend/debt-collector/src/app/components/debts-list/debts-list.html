@@ -1,10 +1,11 @@
 <h2>Debts</h2>
 <ul>
-  <li
-    *ngFor="let debt of debts"
-    (click)="openDebt(debt.id)"
-    style="cursor: pointer"
-  >
-    {{ debt.debtor_name }} – {{ debt.amount | number:'1.2-2' }} EUR
-  </li>
+  @for (debt of debts; track debt.id) {
+    <li
+      (click)="openDebt(debt.id)"
+      style="cursor: pointer"
+    >
+      {{ debt.debtor_name }} – {{ debt.amount | number:'1.2-2' }} EUR
+    </li>
+  }
 </ul>

@@ -1,17 +1,21 @@
 <button (click)="goBack()">← Back to list</button>
 
-<ng-container *ngIf="debt; else loading">
+@if (debt) {
   <h2>Debt #{{ debt.id }}</h2>
   <p><strong>Debtor:</strong> {{ debt.debtor_name }}</p>
   <p><strong>Amount:</strong> {{ debt.amount | number:'1.2-2' }} EUR</p>
   <p><strong>Days overdue:</strong> {{ debt.days_overdue }}</p>
   <p><strong>Status:</strong> {{ debt.status }}</p>
-  <p *ngIf="debt.last_action">
-    <strong>Last action:</strong> {{ debt.last_action }}
-    <span *ngIf="debt.last_action_at">
-      ({{ debt.last_action_at | date:'short' }})
-    </span>
-  </p>
+  @if (debt.last_action) {
+    <p>
+      <strong>Last action:</strong> {{ debt.last_action }}
+      @if (debt.last_action_at) {
+        <span>
+          ({{ debt.last_action_at | date:'short' }})
+        </span>
+      }
+    </p>
+  }
 
   <hr />
 
@@ -19,16 +23,25 @@
     {{ loadingSuggestion ? 'Loading suggestion…' : 'Get suggested action' }}
   </button>
 
-  <div *ngIf="suggestion" style="margin-top: 1rem;">
-    <p><strong>Suggested action:</strong> {{ suggestion.action }}</p>
-    <p><em>{{ suggestion.reason }}</em></p>
+  @if (suggestion) {
+    <div style="margin-top: 1rem;">
+      <p><strong>Suggested action:</strong> {{ suggestion.action }}</p>
+      <p><em>{{ suggestion.reason }}</em></p>
+    </div>
+  }
 
-    <button (click)="applyAction(suggestion.action)" [disabled]="applying">
-      {{ applying ? 'Applying…' : 'Apply suggested action' }}
+  <div style="margin-top: 1rem;">
+    <p><strong>Apply action:</strong></p>
+    <button (click)="applyAction('SEND_REMINDER')" [disabled]="applying" style="margin-right: 0.5rem;">
+      {{ applying ? 'Applying…' : 'Send Reminder' }}
+    </button>
+    <button (click)="applyAction('OFFER_PAYMENT_PLAN')" [disabled]="applying" style="margin-right: 0.5rem;">
+      {{ applying ? 'Applying…' : 'Offer Payment Plan' }}
+    </button>
+    <button (click)="applyAction('ESCALATE_LEGAL')" [disabled]="applying">
+      {{ applying ? 'Applying…' : 'Escalate to Legal' }}
     </button>
   </div>
-</ng-container>
-
-<ng-template #loading>
+} @else {
   <p>Loading debt…</p>
-</ng-template>
+}
