@@ -5,11 +5,11 @@ import { DebtService } from '../../services/debt.service';
 import { Subscription, filter } from 'rxjs';
 
 @Component({
-  selector: 'app-debts-list',
+  selector: 'app-debt-list',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './debts-list.html',
-  styleUrl: './debts-list.css',
+  templateUrl: './debt-list.html',
+  styleUrl: './debt-list.css',
 })
 export class DebtsListComponent implements OnInit, OnDestroy {
   debts: any[] = [];

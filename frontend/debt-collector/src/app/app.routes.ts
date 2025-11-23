@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import {DebtDetailsComponent} from './components/debt-details/debt-details';
-import {DebtsListComponent} from './components/debts-list/debts-list';
+import {DebtDetailsComponent} from './components/debt-view/debt-view';
+import {DebtsListComponent} from './components/debt-list/debt-list';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'debts', pathMatch: 'full' },

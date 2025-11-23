@@ -5,11 +5,11 @@ import { DebtService } from '../../services/debt.service';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-debt-details',
+  selector: 'app-debt-view',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './debt-details.html',
-  styleUrl: './debt-details.css',
+  templateUrl: './debt-view.html',
+  styleUrl: './debt-view.css',
 })
 export class DebtDetailsComponent implements OnInit, OnDestroy {
   debt: any;
