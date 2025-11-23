@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { DebtService } from '../../services/debt.service';
 import { Subscription, filter } from 'rxjs';
+import { Debt } from '../../models/debt.interface';
 
 @Component({
   selector: 'app-debt-list',
@@ -12,14 +13,12 @@ import { Subscription, filter } from 'rxjs';
   styleUrl: './debt-list.css',
 })
 export class DebtListComponent implements OnInit, OnDestroy {
-  debts: any[] = [];
-  private routerSubscription?: Subscription;
+  private api = inject(DebtService);
+  private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
 
-  constructor(
-    private api: DebtService,
-    private router: Router,
-    private cdr: ChangeDetectorRef
-  ) {}
+  debts: Debt[] = [];
+  private routerSubscription?: Subscription;
 
   ngOnInit(): void {
     this.loadDebts();
@@ -41,17 +40,17 @@ export class DebtListComponent implements OnInit, OnDestroy {
 
   loadDebts(): void {
     this.api.getDebts().subscribe({
-      next: (res: any) => {
-        this.debts = res;
-        this.cdr.detectChanges();
+      next: (response) => {
+        this.debts = response;
+        this.cdr.markForCheck();
       },
-      error: (err) => {
-        console.error('Failed to load debts', err);
+      error: (error) => {
+        console.error('Failed to load debts', error);
       },
     });
   }
 
   openDebt(id: number): void {
-    void this.router.navigate(['/debts', id]);
+    this.router.navigate(['/debts', id]);
   }
 }

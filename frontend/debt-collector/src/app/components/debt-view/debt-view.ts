@@ -1,8 +1,10 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DebtService } from '../../services/debt.service';
 import { Subscription } from 'rxjs';
+import { Debt } from '../../models/debt.interface';
+import { Suggestion } from '../../models/suggestion.interface';
 
 @Component({
   selector: 'app-debt-view',
@@ -12,19 +14,17 @@ import { Subscription } from 'rxjs';
   styleUrl: './debt-view.css',
 })
 export class DebtViewComponent implements OnInit, OnDestroy {
-  debt: any;
-  suggestion: any;
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private api = inject(DebtService);
+  private cdr = inject(ChangeDetectorRef);
+
+  debt: Debt | null = null;
+  suggestion: Suggestion | null = null;
   loadingSuggestion = false;
   applying = false;
   private id!: number;
   private routeSubscription?: Subscription;
-
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private api: DebtService,
-    private cdr: ChangeDetectorRef
-  ) {}
 
   ngOnInit(): void {
     this.routeSubscription = this.route.paramMap.subscribe(params => {
@@ -48,12 +48,12 @@ export class DebtViewComponent implements OnInit, OnDestroy {
     this.suggestion = null;
 
     this.api.getDebt(this.id).subscribe({
-      next: (res) => {
-        this.debt = res;
-        this.cdr.detectChanges();
+      next: (response) => {
+        this.debt = response;
+        this.cdr.markForCheck();
       },
-      error: (err) => {
-        console.error('Failed to load debt', err);
+      error: (error) => {
+        console.error('Failed to load debt', error);
         this.goBack();
       },
     });
@@ -62,38 +62,37 @@ export class DebtViewComponent implements OnInit, OnDestroy {
   loadSuggestion(): void {
     this.loadingSuggestion = true;
     this.api.getSuggestion(this.id).subscribe({
-      next: (res) => {
-        this.suggestion = res;
+      next: (response) => {
+        this.suggestion = response;
         this.loadingSuggestion = false;
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       },
-      error: (err) => {
+      error: (error) => {
+        console.error('Failed to load suggestion', error);
         this.loadingSuggestion = false;
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       },
     });
   }
 
   applyAction(action: string): void {
     this.applying = true;
-    this.cdr.detectChanges();
     this.api.applyAction(this.id, action).subscribe({
-      next: (res) => {
-        this.debt = res.debt ?? this.debt;
+      next: (response) => {
+        this.debt = response.debt ?? this.debt;
         this.suggestion = null;
         this.applying = false;
-        this.cdr.detectChanges();
-        alert('Action applied successfully.');
+        this.cdr.markForCheck();
       },
-      error: (err) => {
-        console.error('Failed to apply action', err);
+      error: (error) => {
+        console.error('Failed to apply action', error);
         this.applying = false;
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       },
     });
   }
 
   goBack(): void {
-    void this.router.navigate(['/debts']);
+    this.router.navigate(['/debts']);
   }
 }
