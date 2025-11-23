@@ -32,15 +32,11 @@
 
   <div class="actions-box">
     <p><strong>Apply action:</strong></p>
-    <button (click)="applyAction('SEND_REMINDER')" [disabled]="applying" class="action-button">
-      {{ applying ? 'Applying…' : 'Send Reminder' }}
-    </button>
-    <button (click)="applyAction('OFFER_PAYMENT_PLAN')" [disabled]="applying" class="action-button">
-      {{ applying ? 'Applying…' : 'Offer Payment Plan' }}
-    </button>
-    <button (click)="applyAction('ESCALATE_LEGAL')" [disabled]="applying">
-      {{ applying ? 'Applying…' : 'Escalate to Legal' }}
-    </button>
+    @for (action of availableActions; track action.value) {
+      <button (click)="applyAction(action.value)" [disabled]="applying" class="action-button">
+        {{ applying ? 'Applying…' : action.label }}
+      </button>
+    }
   </div>
 } @else {
   <p>Loading debt…</p>

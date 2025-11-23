@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services;
 
+use App\Enums\DebtAction;
 use App\Models\Debt;
 use App\Services\DebtActionService;
 use PHPUnit\Framework\TestCase;
@@ -38,7 +39,7 @@ class DebtActionServiceTest extends TestCase
         $this->assertIsArray($result);
         $this->assertArrayHasKey('action', $result);
         $this->assertArrayHasKey('reason', $result);
-        $this->assertEquals('ESCALATE_LEGAL', $result['action']);
+        $this->assertEquals(DebtAction::ESCALATE_LEGAL->value, $result['action']);
         $this->assertStringContainsString('1000 EUR', $result['reason']);
     }
 
@@ -56,7 +57,7 @@ class DebtActionServiceTest extends TestCase
 
         $result = $this->service->suggest($debt);
 
-        $this->assertEquals('ESCALATE_LEGAL', $result['action']);
+        $this->assertEquals(DebtAction::ESCALATE_LEGAL->value, $result['action']);
     }
 
     /**
@@ -73,7 +74,7 @@ class DebtActionServiceTest extends TestCase
 
         $result = $this->service->suggest($debt);
 
-        $this->assertEquals('OFFER_PAYMENT_PLAN', $result['action']);
+        $this->assertEquals(DebtAction::OFFER_PAYMENT_PLAN->value, $result['action']);
         $this->assertStringContainsString('30 days', $result['reason']);
     }
 
@@ -91,7 +92,7 @@ class DebtActionServiceTest extends TestCase
 
         $result = $this->service->suggest($debt);
 
-        $this->assertEquals('OFFER_PAYMENT_PLAN', $result['action']);
+        $this->assertEquals(DebtAction::OFFER_PAYMENT_PLAN->value, $result['action']);
     }
 
     /**
@@ -108,7 +109,7 @@ class DebtActionServiceTest extends TestCase
 
         $result = $this->service->suggest($debt);
 
-        $this->assertEquals('SEND_REMINDER', $result['action']);
+        $this->assertEquals(DebtAction::SEND_REMINDER->value, $result['action']);
         $this->assertStringContainsString('recent', $result['reason']);
     }
 }

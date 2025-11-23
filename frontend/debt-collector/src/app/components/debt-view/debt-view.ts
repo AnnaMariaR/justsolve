@@ -5,6 +5,7 @@ import { DebtService } from '../../services/debt.service';
 import { Subscription } from 'rxjs';
 import { Debt } from '../../models/debt.interface';
 import { Suggestion } from '../../models/suggestion.interface';
+import { DebtActionOption } from '../../models/debt-action.interface';
 
 @Component({
   selector: 'app-debt-view',
@@ -21,6 +22,7 @@ export class DebtViewComponent implements OnInit, OnDestroy {
 
   debt: Debt | null = null;
   suggestion: Suggestion | null = null;
+  availableActions: DebtActionOption[] = [];
   loadingSuggestion = false;
   applying = false;
   private id!: number;
@@ -29,6 +31,8 @@ export class DebtViewComponent implements OnInit, OnDestroy {
   constructor() {}
 
   ngOnInit(): void {
+    this.loadActions();
+
     this.routeSubscription = this.route.paramMap.subscribe(params => {
       const id = Number(params.get('id'));
       if (Number.isNaN(id)) {
@@ -38,6 +42,17 @@ export class DebtViewComponent implements OnInit, OnDestroy {
 
       this.id = id;
       this.loadDebt();
+    });
+  }
+
+  loadActions(): void {
+    this.api.getActions().subscribe({
+      next: (response) => {
+        this.availableActions = response;
+      },
+      error: (error) => {
+        console.error('Failed to load actions', error);
+      },
     });
   }
 

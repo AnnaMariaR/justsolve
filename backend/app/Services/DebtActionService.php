@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\DebtAction;
 use App\Models\Debt;
 
 /**
@@ -26,20 +27,20 @@ class DebtActionService
     {
         if ($debt->days_overdue >= 60 && $debt->amount >= 1000) {
             return [
-                'action' => 'ESCALATE_LEGAL',
+                'action' => DebtAction::ESCALATE_LEGAL->value,
                 'reason' => 'Debt is significantly overdue and above 1000 EUR.',
             ];
         }
 
         if ($debt->days_overdue >= 30) {
             return [
-                'action' => 'OFFER_PAYMENT_PLAN',
+                'action' => DebtAction::OFFER_PAYMENT_PLAN->value,
                 'reason' => 'Debt has been overdue for more than 30 days.',
             ];
         }
 
         return [
-            'action' => 'SEND_REMINDER',
+            'action' => DebtAction::SEND_REMINDER->value,
             'reason' => 'Debt is overdue but still recent.',
         ];
     }

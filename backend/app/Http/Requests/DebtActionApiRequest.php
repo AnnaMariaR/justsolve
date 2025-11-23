@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Enums\DebtAction;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
@@ -29,7 +30,7 @@ class DebtActionApiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'action' => 'required|string|in:SEND_REMINDER,OFFER_PAYMENT_PLAN,ESCALATE_LEGAL',
+            'action' => 'required|string|in:' . DebtAction::valuesString(),
         ];
     }
 
@@ -40,9 +41,11 @@ class DebtActionApiRequest extends FormRequest
      */
     public function messages(): array
     {
+        $validActions = implode(', ', DebtAction::values());
+
         return [
             'action.required' => 'An action is required',
-            'action.in' => 'The action must be one of: SEND_REMINDER, OFFER_PAYMENT_PLAN, ESCALATE_LEGAL',
+            'action.in' => "The action must be one of: {$validActions}",
         ];
     }
 }
