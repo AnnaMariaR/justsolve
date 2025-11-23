@@ -26,6 +26,8 @@ export class DebtViewComponent implements OnInit, OnDestroy {
   private id!: number;
   private routeSubscription?: Subscription;
 
+  constructor() {}
+
   ngOnInit(): void {
     this.routeSubscription = this.route.paramMap.subscribe(params => {
       const id = Number(params.get('id'));

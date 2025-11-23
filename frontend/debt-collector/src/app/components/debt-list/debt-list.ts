@@ -20,6 +20,8 @@ export class DebtListComponent implements OnInit, OnDestroy {
   debts: Debt[] = [];
   private routerSubscription?: Subscription;
 
+  constructor() {}
+
   ngOnInit(): void {
     this.loadDebts();
 
