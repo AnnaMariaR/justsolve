@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Handles debt management operations including listing, viewing, and applying actions.
  */
-class DebtController extends Controller
+class DebtApiController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -34,7 +34,7 @@ class DebtController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function listAll(): JsonResponse
     {
         try {
             $debts = $this->debtRepository->getAllOpen();
@@ -55,7 +55,7 @@ class DebtController extends Controller
      * @param Debt $debt
      * @return JsonResponse
      */
-    public function show(Debt $debt): JsonResponse
+    public function view(Debt $debt): JsonResponse
     {
         try {
             return response()->json($debt);
@@ -75,7 +75,7 @@ class DebtController extends Controller
      * @param Debt $debt
      * @return JsonResponse
      */
-    public function suggestion(Debt $debt): JsonResponse
+    public function showSuggestion(Debt $debt): JsonResponse
     {
         try {
             $suggestion = $this->debtActionService->suggest($debt);

@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DebtController;
+use App\Http\Controllers\DebtApiController;
 
 Route::middleware(['auth.basic', 'admin'])->group(function () {
-    Route::get('/debts', [DebtController::class, 'index']);
-    Route::get('/debts/{debt}', [DebtController::class, 'show']);
-    Route::get('/debts/{debt}/suggestion', [DebtController::class, 'suggestion']);
-    Route::post('/debts/{debt}/apply-action', [DebtController::class, 'applyAction']);
+    Route::get('/debts', [DebtApiController::class, 'listAll']);
+    Route::get('/debts/{debt}', [DebtApiController::class, 'view']);
+    Route::get('/debts/{debt}/suggestion', [DebtApiController::class, 'showSuggestion']);
+    Route::post('/debts/{debt}/apply-action', [DebtApiController::class, 'applyAction']);
 });
