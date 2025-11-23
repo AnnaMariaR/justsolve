@@ -11,7 +11,7 @@ import { Subscription, filter } from 'rxjs';
   templateUrl: './debt-list.html',
   styleUrl: './debt-list.css',
 })
-export class DebtsListComponent implements OnInit, OnDestroy {
+export class DebtListComponent implements OnInit, OnDestroy {
   debts: any[] = [];
   private routerSubscription?: Subscription;
 

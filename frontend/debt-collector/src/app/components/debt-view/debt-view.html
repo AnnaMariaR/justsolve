@@ -1,7 +1,7 @@
 <button (click)="goBack()">← Back to list</button>
 
 @if (debt) {
-  <h2>Debt #{{ debt.id }}</h2>
+  <h2>Debt {{ debt.id }}</h2>
   <p><strong>Debtor:</strong> {{ debt.debtor_name }}</p>
   <p><strong>Amount:</strong> {{ debt.amount | number:'1.2-2' }} EUR</p>
   <p><strong>Days overdue:</strong> {{ debt.days_overdue }}</p>
@@ -24,18 +24,18 @@
   </button>
 
   @if (suggestion) {
-    <div style="margin-top: 1rem;">
+    <div class="suggestion-box">
       <p><strong>Suggested action:</strong> {{ suggestion.action }}</p>
       <p><em>{{ suggestion.reason }}</em></p>
     </div>
   }
 
-  <div style="margin-top: 1rem;">
+  <div class="actions-box">
     <p><strong>Apply action:</strong></p>
-    <button (click)="applyAction('SEND_REMINDER')" [disabled]="applying" style="margin-right: 0.5rem;">
+    <button (click)="applyAction('SEND_REMINDER')" [disabled]="applying" class="action-button">
       {{ applying ? 'Applying…' : 'Send Reminder' }}
     </button>
-    <button (click)="applyAction('OFFER_PAYMENT_PLAN')" [disabled]="applying" style="margin-right: 0.5rem;">
+    <button (click)="applyAction('OFFER_PAYMENT_PLAN')" [disabled]="applying" class="action-button">
       {{ applying ? 'Applying…' : 'Offer Payment Plan' }}
     </button>
     <button (click)="applyAction('ESCALATE_LEGAL')" [disabled]="applying">

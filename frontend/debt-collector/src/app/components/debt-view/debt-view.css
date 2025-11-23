@@ -41,9 +41,15 @@ hr {
   border-top: 1px solid #ddd;
 }
 
-div[style*="margin-top"] {
+.suggestion-box,
+.actions-box {
+  margin-top: 1rem;
   padding: 1rem;
   background: #f9f9f9;
   border-radius: 4px;
   border-left: 3px solid #007bff;
+}
+
+.action-button {
+  margin-right: 0.5rem;
 }

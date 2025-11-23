@@ -1,10 +1,7 @@
 <h2>Debts</h2>
 <ul>
   @for (debt of debts; track debt.id) {
-    <li
-      (click)="openDebt(debt.id)"
-      style="cursor: pointer"
-    >
+    <li (click)="openDebt(debt.id)">
       {{ debt.debtor_name }} – {{ debt.amount | number:'1.2-2' }} EUR
     </li>
   }

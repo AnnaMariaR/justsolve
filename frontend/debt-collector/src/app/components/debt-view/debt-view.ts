@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './debt-view.html',
   styleUrl: './debt-view.css',
 })
-export class DebtDetailsComponent implements OnInit, OnDestroy {
+export class DebtViewComponent implements OnInit, OnDestroy {
   debt: any;
   suggestion: any;
   loadingSuggestion = false;
@@ -27,7 +27,6 @@ export class DebtDetailsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // Subscribe to route parameter changes
     this.routeSubscription = this.route.paramMap.subscribe(params => {
       const id = Number(params.get('id'));
       if (Number.isNaN(id)) {
@@ -45,7 +44,6 @@ export class DebtDetailsComponent implements OnInit, OnDestroy {
   }
 
   loadDebt(): void {
-    // Reset state when loading new debt
     this.debt = null;
     this.suggestion = null;
 
@@ -82,7 +80,7 @@ export class DebtDetailsComponent implements OnInit, OnDestroy {
     this.api.applyAction(this.id, action).subscribe({
       next: (res) => {
         this.debt = res.debt ?? this.debt;
-        this.suggestion = null; // Clear suggestion after applying
+        this.suggestion = null;
         this.applying = false;
         this.cdr.detectChanges();
         alert('Action applied successfully.');
