@@ -81,7 +81,7 @@ export class DebtViewComponent implements OnInit, OnDestroy {
     this.applying = true;
     this.api.applyAction(this.id, action).subscribe({
       next: (response) => {
-        this.debt = response.debt ?? this.debt;
+        this.debt = response.debt;
         this.suggestion = null;
         this.applying = false;
         this.cdr.markForCheck();
