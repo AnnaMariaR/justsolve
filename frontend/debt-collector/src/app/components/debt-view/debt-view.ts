@@ -24,7 +24,7 @@ export class DebtViewComponent implements OnInit, OnDestroy {
   suggestion: Suggestion | null = null;
   availableActions: DebtActionOption[] = [];
   loadingSuggestion = false;
-  applying = false;
+  applyingAction: string | null = null;
   private id!: number;
   private routeSubscription?: Subscription;
 
@@ -93,17 +93,17 @@ export class DebtViewComponent implements OnInit, OnDestroy {
   }
 
   applyAction(action: string): void {
-    this.applying = true;
+    this.applyingAction = action;
     this.api.applyAction(this.id, action).subscribe({
       next: (response) => {
         this.debt = response.debt;
         this.suggestion = null;
-        this.applying = false;
+        this.applyingAction = null;
         this.cdr.markForCheck();
       },
       error: (error) => {
         console.error('Failed to apply action', error);
-        this.applying = false;
+        this.applyingAction = null;
         this.cdr.markForCheck();
       },
     });

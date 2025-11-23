@@ -33,8 +33,8 @@
   <div class="actions-box">
     <p><strong>Apply action:</strong></p>
     @for (action of availableActions; track action.value) {
-      <button (click)="applyAction(action.value)" [disabled]="applying" class="action-button">
-        {{ applying ? 'Applying…' : action.label }}
+      <button (click)="applyAction(action.value)" [disabled]="applyingAction !== null" class="action-button">
+        {{ action.label }}
       </button>
     }
   </div>
